@@ -30,7 +30,7 @@ export function CsvUploader({ onImport }: CsvUploaderProps) {
       <p className="text-sm text-muted-foreground mb-2">
         Uses <code className="rounded bg-muted border border-border px-1.5 py-0.5 text-foreground font-medium">Transaction Date</code>,{" "}
         <code className="rounded bg-muted border border-border px-1.5 py-0.5 text-foreground font-medium">Description</code>,{" and "}
-        <code className="rounded bg-muted border border-border px-1.5 py-0.5 text-foreground font-medium">Amount</code>. Balance Transfers, Annual Fees, and Bilt Housing and Creidt Card payments are excluded from bonus progress.
+        <code className="rounded bg-muted border border-border px-1.5 py-0.5 text-foreground font-medium">Amount</code>. Balance Transfers, Refunds, Annual Fees, and Bilt Housing and Credit Card payments are excluded from bonus progress.
       </p>
       <div className="flex items-center gap-2 rounded-lg border border-border bg-muted/50 px-3 py-2.5 mb-4">
         <Info className="h-4 w-4 shrink-0 text-muted-foreground" />

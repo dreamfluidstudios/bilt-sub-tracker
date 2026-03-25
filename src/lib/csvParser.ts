@@ -30,6 +30,11 @@ function isEligibleMerchant(merchant: string): boolean {
   )
 }
 
+function isNonSpendCreditAmount(value: string): boolean {
+  // In Bilt CSVs, a leading "-" indicates non-spend credits such as refunds or payments.
+  return value.replace(/,/g, "").trim().startsWith("-")
+}
+
 /**
  * Parse CSV file and map to Transaction[].
  * Supports columns: "Transaction Date" or "Posted Date", "Description", "Amount".
@@ -49,21 +54,22 @@ export function parseCsvToTransactions(
           return
         }
         const transactions: Transaction[] = results.data
-          .filter((row) => {
+          .filter((row: Record<string, string>) => {
             const date = getCell(row, DATE_KEYS)
             const merchant = getCell(row, DESCRIPTION_KEYS)
             const amount = getCell(row, AMOUNT_KEYS)
             return date != null && merchant != null && amount != null
           })
-          .map((row) => {
+          .map((row: Record<string, string>) => {
             const date = getCell(row, DATE_KEYS) ?? ""
             const merchant = getCell(row, DESCRIPTION_KEYS) ?? ""
+            const amountRaw = getCell(row, AMOUNT_KEYS) ?? "0"
             return {
               id: crypto.randomUUID(),
               date,
               merchant,
-              amount: parseAmount(getCell(row, AMOUNT_KEYS) ?? "0"),
-              eligible: isEligibleMerchant(merchant),
+              amount: parseAmount(amountRaw),
+              eligible: isEligibleMerchant(merchant) && !isNonSpendCreditAmount(amountRaw),
             }
           })
         resolve(transactions)

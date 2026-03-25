@@ -84,7 +84,13 @@ export function ProgressCard({
 
         <div className="pt-3 border-t border-border space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <Calendar className="h-4 w-4 shrink-0 text-muted-foreground" />
+            <Label
+              htmlFor="activation-date"
+              className="text-muted-foreground"
+              aria-label="Open activation date picker"
+            >
+              <Calendar className="h-4 w-4 shrink-0" />
+            </Label>
             <Label htmlFor="activation-date" className="text-sm text-muted-foreground shrink-0">
               Card activated
             </Label>
@@ -92,8 +98,9 @@ export function ProgressCard({
               id="activation-date"
               type="date"
               value={activationDate}
+              onClick={(e) => e.currentTarget.showPicker()}
               onChange={(e) => onActivationDateChange(e.target.value)}
-              className="w-auto max-w-[11rem]"
+              className="w-auto max-w-[11rem] cursor-pointer"
             />
           </div>
           <p className="text-sm text-muted-foreground min-h-[1.25rem]">

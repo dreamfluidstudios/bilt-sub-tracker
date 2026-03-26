@@ -24,10 +24,8 @@ export const NON_ELIGIBLE_MERCHANT_PATTERNS = [
 ] as const
 
 function isEligibleMerchant(merchant: string): boolean {
-  const lower = merchant.toLowerCase()
-  return !NON_ELIGIBLE_MERCHANT_PATTERNS.some((pattern) =>
-    lower.includes(pattern.toLowerCase())
-  )
+  const lower = merchant.toLowerCase().trim()
+  return !NON_ELIGIBLE_MERCHANT_PATTERNS.some((p) => lower === p.toLowerCase())
 }
 
 function isNonSpendCreditAmount(value: string): boolean {
@@ -38,7 +36,7 @@ function isNonSpendCreditAmount(value: string): boolean {
 /**
  * Parse CSV file and map to Transaction[].
  * Supports columns: "Transaction Date" or "Posted Date", "Description", "Amount".
- * Rows matching non-eligible patterns (e.g. Balance Transfer, Annual Fee) are set eligible=false.
+ * Rows whose Description exactly matches a non-eligible string are set eligible=false.
  */
 export function parseCsvToTransactions(
   file: File
